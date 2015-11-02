@@ -1,0 +1,2 @@
+patch patches/0001-netfilter-x_tables-add-context-to-ipt_REJECT-xt_TPRO.patch
+patch patches/disable-nft-compat-validation.patch
