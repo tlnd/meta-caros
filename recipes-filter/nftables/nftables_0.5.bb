@@ -6,7 +6,7 @@ BUGTRACKER = "http://bugzilla.netfilter.org/"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d1a78fdd879a263a5e0b42d1fc565e79"
 
-PR = "r1.5"
+PR = "r2.5"
 
 DEPENDS = "libmnl libnftnl readline gmp iptables"
 RRECOMMENDS_${PN} = "kernel-module-nf-tables \
@@ -36,7 +36,8 @@ RRECOMMENDS_${PN} = "kernel-module-nf-tables \
 
 CONFFILES_${PN} = "${sysconfdir}/nftables/*"
 
-SRC_URI = "http://netfilter.org/projects/${PN}/files/${PN}-${PV}.tar.bz2"
+SRC_URI = "http://netfilter.org/projects/${PN}/files/${PN}-${PV}.tar.bz2 \
+	   file://0001-nft-src-add-xt-compat-support.patch"
 
 SRC_URI[md5sum] = "94bfe1c54bcb9f6ed974835f2fca8069"
 SRC_URI[sha256sum] = "1fb6dff333d8a4fc347cbbe273bf905a2634b27a8c39df0d3a45d5a3fde10ad6"
