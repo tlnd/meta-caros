@@ -4,7 +4,7 @@ HOMEPAGE = "http://openvswitch.org/"
 SECTION = "networking"
 LICENSE = "Apache-2"
 
-inherit module autotools systemd
+inherit autotools systemd
 
 INC_PR = "r0"
 
@@ -12,8 +12,9 @@ DEPENDS += "openssl python"
 
 RDEPENDS_${PN} += "${PN}-vswitchd ${PN}-ovsdb ${PN}-tools ${PN}-pki"
 RDEPENDS_${PN}-ovsdb = "${PN}-common"
-RDEPENDS_${PN}-vswitchd = "${PN}-common kernel-module-${PN}"
+RDEPENDS_${PN}-vswitchd = "python ${PN}-common kernel-module-${PN}"
 RDEPENDS_${PN}-tools = "${PN}-common ${PN}-python python"
+RDEPENDS_${PN}-bugtool = "python ${PN}-common"
 RDEPENDS_kernel-module-${PN} += "kernel-module-vxlan"
 RRECOMMENDS_${PN} += "kernel-module-${PN}"
 
@@ -21,7 +22,7 @@ SRC_URI += "file://openvswitch-ovsdb.service \
 	    file://openvswitch-vswitchd.service \
 	    file://modules.load"
 
-EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
+EXTRA_OECONF = "KARCH=${TARGET_ARCH}"
 
 ALLOW_EMPTY_${PN}-pki = "1"
 PACKAGES =+ "${PN}-common ${PN}-ovsdb ${PN}-vswitchd ${PN}-tools ${PN}-bugtool ${PN}-pki ${PN}-python"
@@ -81,17 +82,13 @@ FILES_${PN}-python = "\
 	${datadir}/openvswitch/python \
         "
 
-MODULE_PACKAGES = "kernel-module-${PN}"
-MODULE_FILES_kernel-module-${PN} = "/lib/modules"
-
 SYSTEMD_PACKAGES = "${PN} ${PN}-ovsdb ${PN}-vswitchd"
 SYSTEMD_SERVICE_${PN}-ovsdb = "openvswitch-ovsdb.service"
 SYSTEMD_SERVICE_${PN}-vswitchd = "openvswitch-vswitchd.service"
 
 do_install_append() {
-	oe_runmake 'INSTALL_MOD_PATH=${D}' modules_install
-	rm -fr ${D}/${datadir}/${PN}/pki ${D}/${localstatedir}
-	mkdir -p ${D}/${localstatedir}/lib/openvswitch/pki
+    rm -fr ${D}/${datadir}/${PN}/pki ${D}/${localstatedir}
+    mkdir -p ${D}/${localstatedir}/lib/openvswitch/pki
 
     install -d ${D}${systemd_unitdir}/system/
     install -m 0644 ${WORKDIR}/openvswitch-ovsdb.service ${D}${systemd_unitdir}/system/

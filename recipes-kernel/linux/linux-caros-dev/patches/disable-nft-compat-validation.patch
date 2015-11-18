@@ -1,0 +1,44 @@
+diff --git a/net/netfilter/nft_compat.c b/net/netfilter/nft_compat.c
+index 66def31..6b5d95c 100644
+--- a/net/netfilter/nft_compat.c
++++ b/net/netfilter/nft_compat.c
+@@ -287,14 +287,18 @@ static int nft_target_validate(const struct nft_ctx *ctx,
+ 	unsigned int hook_mask = 0;
+ 	int ret;
+ 
++	return 0;
++
+ 	if (ctx->chain->flags & NFT_BASE_CHAIN) {
+ 		const struct nft_base_chain *basechain =
+ 						nft_base_chain(ctx->chain);
+ 		const struct nf_hook_ops *ops = &basechain->ops[0];
+ 
+ 		hook_mask = 1 << ops->hooknum;
+-		if (!(hook_mask & target->hooks))
++		if (!(hook_mask & target->hooks)) {
++			printk(KERN_ERR "nft_target_validate: hook validation failed\n");
+ 			return -EINVAL;
++		}
+ 
+ 		ret = nft_compat_chain_validate_dependency(target->table,
+ 							   ctx->chain);
+@@ -469,14 +473,18 @@ static int nft_match_validate(const struct nft_ctx *ctx,
+ 	unsigned int hook_mask = 0;
+ 	int ret;
+ 
++	return 0;
++
+ 	if (ctx->chain->flags & NFT_BASE_CHAIN) {
+ 		const struct nft_base_chain *basechain =
+ 						nft_base_chain(ctx->chain);
+ 		const struct nf_hook_ops *ops = &basechain->ops[0];
+ 
+ 		hook_mask = 1 << ops->hooknum;
+-		if (!(hook_mask & match->hooks))
++		if (!(hook_mask & match->hooks)) {
++			printk(KERN_ERR "nft_match_validate: hook validation failed\n");
+ 			return -EINVAL;
++		}
+ 
+ 		ret = nft_compat_chain_validate_dependency(match->table,
+ 							   ctx->chain);
