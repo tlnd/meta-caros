@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://MIT-LICENSE.txt;md5=2ad5b88aa2be935914ce2f735597aa5f"
 
 PR = "r0.2"
 
-SRC_URI = "git:///usr/src/erlang/ipt_account"
+SRC_URI = "git://github.com/RoadRunnr/ipt_account.git"
 SRCREV = "${AUTOREV}"
 
 DEPENDS = "erlang-lager erlang-gen-socket"
