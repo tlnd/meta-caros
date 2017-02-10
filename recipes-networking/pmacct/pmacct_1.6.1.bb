@@ -2,13 +2,14 @@ SUMMARY = "Small set of multi-purpose passive network monitoring tools"
 HOMEPAGE = "http://www.pmacct.net/"
 SECTION = "network"
 LICENSE = "GPL-2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=56015ca09d32459cf5a3c0e574f86f16"
+LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=fedab68ad56a92a977db02ed6a40f9e1"
 
-SRC_URI = "http://www.pmacct.net/${PN}-${PV}.tar.gz"
-SRC_URI[md5sum] = "5dc1dab96fbd3937b49152d1bdc2913f"
-SRC_URI[sha256sum] = "eb332a6812d1e02134900a1d115a24f315de7c861a9b63093c1226753486cbe7"
+SRC_URI = "git://git@gitlab.tpip.net/tlindhorst/pmacct.git;protocol=ssh;branch=dev"
+SRCREV = "29940494cf6612831a1e627d2c0aaf4591a26764"
 
-PR = "r1"
+S = "${WORKDIR}/git"
+
+PR = "r3"
 
 DEPENDS = "libpcap zlib"
 
